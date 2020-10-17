@@ -12,26 +12,41 @@ import SwiftUI
 struct CustomersView: View {
     
     @EnvironmentObject var dataModel: CustomersViewModel
-    @State var showingCustomerForm: Bool = false
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(dataModel.getValues(objs: dataModel.customers), id:\.id) { customer in
-                    Text("\(customer.name)")
-                }.onDelete(perform: dataModel.deleteData(indexSet:))
-            }.navigationTitle("Clientes")
+            ZStack(alignment: .top) {
+                List {
+                    ForEach(Array(dataModel.customers.enumerated()), id:\.element) { index, customer in
+                        Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age)")
+                            .onTapGesture {
+                                dataModel.determineUpdate(obj: customer)
+                            }
+                    }.onDelete(perform: dataModel.deleteData(indexSet:))
+                }
+//                if dataModel.savedData {
+//                    Text("Criado com sucesso!")
+//                        .padding()
+//                        .background(Color(.lightGray))
+//                        .clipShape(Capsule())
+//                } else {
+//                    EmptyView()
+//                }
+                
+                    
+            }
+            .navigationTitle("Clientes")
             .navigationBarItems(leading: Button(action: {
                 print("Edit")
             }){
                 Text("Editar")
             }, trailing: Button(action: {
-                showingCustomerForm.toggle()
+                dataModel.showingCustomerForm.toggle()
             }){
-                Image(systemName: "plus")
+                Image(systemName: "plus").frame(width: 30, height: 30)
             })
-            .sheet(isPresented: $showingCustomerForm, content: {
-                CustomerFormView(showingCustomerForm: $showingCustomerForm)
+            .sheet(isPresented: $dataModel.showingCustomerForm, content: {
+                CustomerFormView(dataModel: dataModel)
             })
         }
     }
@@ -40,9 +55,8 @@ struct CustomersView: View {
 //MARK: Formulário de Cadastro de Usuários
 struct CustomerFormView: View {
     
-    @EnvironmentObject var dataModel: CustomersViewModel
-    @Binding var showingCustomerForm: Bool
-    @State private var selectedGenre: Genres = .feminine
+    @ObservedObject var dataModel: CustomersViewModel
+//    @State private var selectedGenre: Genres = .feminine
     
     var body: some View {
         NavigationView {
@@ -53,7 +67,7 @@ struct CustomerFormView: View {
                     TextField("CPF", text: $dataModel.customer.cpf)
                     DatePicker("Data de Nascimento", selection: $dataModel.customer.bornDate, displayedComponents: .date)
                     Text("Gênero")
-                    Picker(selection: $selectedGenre, label: Text("Gênero")) {
+                    Picker(selection: $dataModel.customer.gender, label: Text("Gênero")) {
                         ForEach(Genres.allCases, id: \.self) { genero in
                             Text(genero.rawValue).tag(genero)
                         }
@@ -62,19 +76,24 @@ struct CustomerFormView: View {
                 }
             }
             .navigationBarItems(leading: Button(action: {
-                showingCustomerForm.toggle()
+                dataModel.showingCustomerForm.toggle()
             }) {
                 Text("Cancelar")
             }, trailing: Button(action: {
-                dataModel.customer.gender = selectedGenre.rawValue
-                dataModel.writeData()
+//                dataModel.customer.gender = selectedGenre.rawValue
+                if dataModel.isUpdate {
+                    dataModel.updateData()
+                } else {
+                    dataModel.writeData()
+                }
                 //Show toast
-                showingCustomerForm.toggle()
+//                dataModel.showingCustomerForm.toggle()
+                
             }) {
                 Text("Salvar")
             }.disabled(!checkForm()))
             
-            .navigationBarTitle("Cadastro de Cliente", displayMode: .inline)
+            .navigationBarTitle(dataModel.isUpdate ? "Cadastro de Cliente" : "Editar Cliente", displayMode: .inline)
         }
     }
     
@@ -84,6 +103,17 @@ struct CustomerFormView: View {
         } else {
             return false
         }
+    }
+}
+
+//MARK: Card View
+
+struct CustomerCardView: View {
+    
+    @Binding var customer: Customer
+    
+    var body: some View {
+        Text("\(customer.name) - \(customer.age)")
     }
 }
 

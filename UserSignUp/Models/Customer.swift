@@ -13,7 +13,7 @@ enum Genres: String, CaseIterable {
     case outro = "Outro"
 }
 
-struct Customer {
+struct Customer: Hashable {
     
     let id = UUID()
     var name: String!
@@ -22,6 +22,13 @@ struct Customer {
     var bornDate: Date!
     var gender: String! 
     var createdAt = Date()
+    var age: String {
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .short
+        form.allowedUnits = [.year]
+        return form.string(from: bornDate, to: Date())!
+    }
     
     
 }
