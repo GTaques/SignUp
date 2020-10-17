@@ -25,7 +25,7 @@ struct Customer: Hashable {
     var age: String {
         let form = DateComponentsFormatter()
         form.maximumUnitCount = 2
-        form.unitsStyle = .short
+        form.unitsStyle = .abbreviated
         form.allowedUnits = [.year]
         return form.string(from: bornDate, to: Date())!
     }

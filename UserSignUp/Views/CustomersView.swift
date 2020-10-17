@@ -92,7 +92,6 @@ struct CustomerFormView: View {
                     dataModel.writeData()
                 }
                 //Show toast
-//                dataModel.showingCustomerForm.toggle()
                 
             }) {
                 Text("Salvar")
