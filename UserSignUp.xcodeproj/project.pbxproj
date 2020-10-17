@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E88E9DF0253B2426007E2D59 /* CustomersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DEF253B2425007E2D59 /* CustomersView.swift */; };
+		E88E9DFB253B25A6007E2D59 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DFA253B25A6007E2D59 /* SettingsView.swift */; };
+		E88E9E00253B3151007E2D59 /* CustomersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */; };
 		E895DB42253A3C1A003A11FA /* UserSignUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */; };
 		E895DB44253A3C1A003A11FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB43253A3C1A003A11FA /* ContentView.swift */; };
 		E895DB46253A3C1C003A11FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E895DB45253A3C1C003A11FA /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 		E895DB4E253A3C1C003A11FA /* UserSignUp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E895DB4C253A3C1C003A11FA /* UserSignUp.xcdatamodeld */; };
 		E895DB59253A3C1C003A11FA /* UserSignUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB58253A3C1C003A11FA /* UserSignUpTests.swift */; };
 		E895DB64253A3C1C003A11FA /* UserSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB63253A3C1C003A11FA /* UserSignUpUITests.swift */; };
+		E895DB78253A3D8A003A11FA /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB77253A3D8A003A11FA /* Customer.swift */; };
+		E895DB8E253A3F01003A11FA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB8D253A3F01003A11FA /* HomeView.swift */; };
+		E895DBA0253A4147003A11FA /* CustomButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB9F253A4147003A11FA /* CustomButtonStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E88E9DEF253B2425007E2D59 /* CustomersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersView.swift; sourceTree = "<group>"; };
+		E88E9DFA253B25A6007E2D59 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersViewModel.swift; sourceTree = "<group>"; };
 		E895DB3E253A3C1A003A11FA /* UserSignUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserSignUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUpApp.swift; sourceTree = "<group>"; };
 		E895DB43253A3C1A003A11FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -49,6 +58,9 @@
 		E895DB5F253A3C1C003A11FA /* UserSignUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UserSignUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E895DB63253A3C1C003A11FA /* UserSignUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUpUITests.swift; sourceTree = "<group>"; };
 		E895DB65253A3C1C003A11FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E895DB77253A3D8A003A11FA /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		E895DB8D253A3F01003A11FA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E895DB9F253A4147003A11FA /* CustomButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +111,10 @@
 		E895DB40253A3C1A003A11FA /* UserSignUp */ = {
 			isa = PBXGroup;
 			children = (
+				E895DB76253A3D6F003A11FA /* ViewModels */,
+				E895DB75253A3D68003A11FA /* Views */,
+				E895DB74253A3D62003A11FA /* Models */,
 				E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */,
-				E895DB43253A3C1A003A11FA /* ContentView.swift */,
 				E895DB45253A3C1C003A11FA /* Assets.xcassets */,
 				E895DB4A253A3C1C003A11FA /* Persistence.swift */,
 				E895DB4F253A3C1C003A11FA /* Info.plist */,
@@ -134,6 +148,42 @@
 				E895DB65253A3C1C003A11FA /* Info.plist */,
 			);
 			path = UserSignUpUITests;
+			sourceTree = "<group>";
+		};
+		E895DB74253A3D62003A11FA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E895DB77253A3D8A003A11FA /* Customer.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E895DB75253A3D68003A11FA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E895DB43253A3C1A003A11FA /* ContentView.swift */,
+				E895DB9E253A413A003A11FA /* Styles */,
+				E895DB8D253A3F01003A11FA /* HomeView.swift */,
+				E88E9DEF253B2425007E2D59 /* CustomersView.swift */,
+				E88E9DFA253B25A6007E2D59 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E895DB76253A3D6F003A11FA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E895DB9E253A413A003A11FA /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				E895DB9F253A4147003A11FA /* CustomButtonStyle.swift */,
+			);
+			path = Styles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,9 +316,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E895DB4E253A3C1C003A11FA /* UserSignUp.xcdatamodeld in Sources */,
+				E895DB78253A3D8A003A11FA /* Customer.swift in Sources */,
 				E895DB4B253A3C1C003A11FA /* Persistence.swift in Sources */,
+				E88E9DFB253B25A6007E2D59 /* SettingsView.swift in Sources */,
+				E88E9E00253B3151007E2D59 /* CustomersViewModel.swift in Sources */,
 				E895DB44253A3C1A003A11FA /* ContentView.swift in Sources */,
+				E895DB8E253A3F01003A11FA /* HomeView.swift in Sources */,
 				E895DB42253A3C1A003A11FA /* UserSignUpApp.swift in Sources */,
+				E895DBA0253A4147003A11FA /* CustomButtonStyle.swift in Sources */,
+				E88E9DF0253B2426007E2D59 /* CustomersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
