@@ -56,7 +56,7 @@ struct CustomersView: View {
 struct CustomerFormView: View {
     
     @ObservedObject var dataModel: CustomersViewModel
-//    @State private var selectedGenre: Genres = .feminine
+    @State private var selectedGenre: Genres = .feminine
     
     var body: some View {
         NavigationView {
@@ -67,7 +67,7 @@ struct CustomerFormView: View {
                     TextField("CPF", text: $dataModel.customer.cpf)
                     DatePicker("Data de Nascimento", selection: $dataModel.customer.bornDate, displayedComponents: .date)
                     Text("Gênero")
-                    Picker(selection: $dataModel.customer.gender, label: Text("Gênero")) {
+                    Picker(selection: $selectedGenre, label: Text("Gênero")) {
                         ForEach(Genres.allCases, id: \.self) { genero in
                             Text(genero.rawValue).tag(genero)
                         }
@@ -75,12 +75,17 @@ struct CustomerFormView: View {
                     .pickerStyle(WheelPickerStyle())
                 }
             }
+            .onAppear(perform: {
+                if dataModel.isUpdate && dataModel.customer.gender != nil {
+                    selectedGenre = Genres(rawValue: dataModel.customer.gender)!
+                }
+            })
             .navigationBarItems(leading: Button(action: {
                 dataModel.showingCustomerForm.toggle()
             }) {
                 Text("Cancelar")
             }, trailing: Button(action: {
-//                dataModel.customer.gender = selectedGenre.rawValue
+                dataModel.customer.gender = selectedGenre.rawValue
                 if dataModel.isUpdate {
                     dataModel.updateData()
                 } else {
