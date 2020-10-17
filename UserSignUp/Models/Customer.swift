@@ -20,7 +20,7 @@ struct Customer {
     var phone: String!
     var cpf: String!
     var bornDate: Date!
-    var gender: Genres! 
+    var gender: String! 
     var createdAt = Date()
     
     
