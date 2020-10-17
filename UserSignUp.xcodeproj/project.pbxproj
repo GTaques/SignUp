@@ -10,6 +10,8 @@
 		E88E9DF0253B2426007E2D59 /* CustomersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DEF253B2425007E2D59 /* CustomersView.swift */; };
 		E88E9DFB253B25A6007E2D59 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DFA253B25A6007E2D59 /* SettingsView.swift */; };
 		E88E9E00253B3151007E2D59 /* CustomersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */; };
+		E88E9E19253B4410007E2D59 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E17253B4410007E2D59 /* DataModel.xcdatamodeld */; };
+		E88E9E1E253B445D007E2D59 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E1D253B445D007E2D59 /* DataStore.swift */; };
 		E895DB42253A3C1A003A11FA /* UserSignUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */; };
 		E895DB44253A3C1A003A11FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB43253A3C1A003A11FA /* ContentView.swift */; };
 		E895DB46253A3C1C003A11FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E895DB45253A3C1C003A11FA /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 		E88E9DEF253B2425007E2D59 /* CustomersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersView.swift; sourceTree = "<group>"; };
 		E88E9DFA253B25A6007E2D59 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersViewModel.swift; sourceTree = "<group>"; };
+		E88E9E18253B4410007E2D59 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		E88E9E1D253B445D007E2D59 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		E895DB3E253A3C1A003A11FA /* UserSignUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserSignUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUpApp.swift; sourceTree = "<group>"; };
 		E895DB43253A3C1A003A11FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,6 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E88E9E16253B4402007E2D59 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				E88E9E17253B4410007E2D59 /* DataModel.xcdatamodeld */,
+				E88E9E1D253B445D007E2D59 /* DataStore.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		E895DB35253A3C1A003A11FA = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +124,7 @@
 		E895DB40253A3C1A003A11FA /* UserSignUp */ = {
 			isa = PBXGroup;
 			children = (
+				E88E9E16253B4402007E2D59 /* CoreData */,
 				E895DB76253A3D6F003A11FA /* ViewModels */,
 				E895DB75253A3D68003A11FA /* Views */,
 				E895DB74253A3D62003A11FA /* Models */,
@@ -315,6 +329,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E88E9E19253B4410007E2D59 /* DataModel.xcdatamodeld in Sources */,
+				E88E9E1E253B445D007E2D59 /* DataStore.swift in Sources */,
 				E895DB4E253A3C1C003A11FA /* UserSignUp.xcdatamodeld in Sources */,
 				E895DB78253A3D8A003A11FA /* Customer.swift in Sources */,
 				E895DB4B253A3C1C003A11FA /* Persistence.swift in Sources */,
@@ -646,6 +662,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		E88E9E17253B4410007E2D59 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E88E9E18253B4410007E2D59 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = E88E9E18253B4410007E2D59 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		E895DB4C253A3C1C003A11FA /* UserSignUp.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
