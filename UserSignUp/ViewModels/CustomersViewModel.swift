@@ -14,5 +14,7 @@ class CustomersViewModel: ObservableObject {
     @Published var customers: [NSManagedObject] = []
     @Published var customer: Customer = Customer()
     
-    
+    init() {
+        
+    }
 }

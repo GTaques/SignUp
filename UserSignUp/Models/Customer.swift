@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum Genres: String, CaseIterable {
+    case feminine = "Feminino"
+    case masculino = "Masculino"
+    case outro = "Outro"
+}
+
 struct Customer {
     
     let id = UUID()
@@ -14,7 +20,7 @@ struct Customer {
     var phone: String!
     var cpf: String!
     var bornDate: Date!
-    var gender: String!
+    var gender: Genres! 
     var createdAt = Date()
     
     
