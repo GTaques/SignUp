@@ -11,33 +11,42 @@ import SwiftUI
 
 struct CustomersView: View {
     
-    @State var showingCustomerForm: Bool = false
-    var customers: [Customer] = [
-        Customer(name: "João", phone: "30003000", cpf: "903930219", bornDate: Date(), gender: .feminine, createdAt: Date()),
-        Customer(name: "Maria", phone: "30003000", cpf: "903930219", bornDate: Date(), gender: .masculino, createdAt: Date()),
-        Customer(name: "Nicolau", phone: "30003000", cpf: "903930219", bornDate: Date(), gender: .feminine, createdAt: Date())
-    ]
-    
+    @EnvironmentObject var dataModel: CustomersViewModel
+
     var body: some View {
         NavigationView {
-            List {
-                ForEach(customers, id:\.id) { customer in
-                    Text("\(customer.name)")
-                }.onDelete(perform: { indexSet in
-                    print("Delete")
-                })
-            }.navigationTitle("Clientes")
+            ZStack(alignment: .top) {
+                List {
+                    ForEach(Array(dataModel.customers.enumerated()), id:\.element) { index, customer in
+                        Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age)")
+                            .onTapGesture {
+                                dataModel.determineUpdate(obj: customer)
+                            }
+                    }.onDelete(perform: dataModel.deleteData(indexSet:))
+                }
+//                if dataModel.savedData {
+//                    Text("Criado com sucesso!")
+//                        .padding()
+//                        .background(Color(.lightGray))
+//                        .clipShape(Capsule())
+//                } else {
+//                    EmptyView()
+//                }
+                
+                    
+            }
+            .navigationTitle("Clientes")
             .navigationBarItems(leading: Button(action: {
                 print("Edit")
             }){
                 Text("Editar")
             }, trailing: Button(action: {
-                showingCustomerForm.toggle()
+                dataModel.showingCustomerForm.toggle()
             }){
-                Image(systemName: "plus")
+                Image(systemName: "plus").frame(width: 30, height: 30)
             })
-            .sheet(isPresented: $showingCustomerForm, content: {
-                CustomerFormView(showingCustomerForm: $showingCustomerForm)
+            .sheet(isPresented: $dataModel.showingCustomerForm, content: {
+                CustomerFormView(dataModel: dataModel)
             })
         }
     }
@@ -46,18 +55,17 @@ struct CustomersView: View {
 //MARK: Formulário de Cadastro de Usuários
 struct CustomerFormView: View {
     
-    @State var customer: Customer = Customer(name: "", phone: "", cpf: "", bornDate: Date(), gender: .feminine, createdAt: Date())
-    @Binding var showingCustomerForm: Bool
+    @ObservedObject var dataModel: CustomersViewModel
     @State private var selectedGenre: Genres = .feminine
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Nome", text: $customer.name)
-                    TextField("Telefone", text: $customer.phone)
-                    TextField("CPF", text: $customer.cpf)
-                    DatePicker("Data de Nascimento", selection: $customer.bornDate, displayedComponents: .date)
+                    TextField("Nome", text: $dataModel.customer.name)
+                    TextField("Telefone", text: $dataModel.customer.phone)
+                    TextField("CPF", text: $dataModel.customer.cpf)
+                    DatePicker("Data de Nascimento", selection: $dataModel.customer.bornDate, displayedComponents: .date)
                     Text("Gênero")
                     Picker(selection: $selectedGenre, label: Text("Gênero")) {
                         ForEach(Genres.allCases, id: \.self) { genero in
@@ -66,31 +74,50 @@ struct CustomerFormView: View {
                     }.frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .pickerStyle(WheelPickerStyle())
                 }
-                
-                
-                
             }
+            .onAppear(perform: {
+                if dataModel.isUpdate && dataModel.customer.gender != nil {
+                    selectedGenre = Genres(rawValue: dataModel.customer.gender)!
+                }
+            })
             .navigationBarItems(leading: Button(action: {
-                showingCustomerForm.toggle()
+                dataModel.showingCustomerForm.toggle()
             }) {
                 Text("Cancelar")
             }, trailing: Button(action: {
-                customer.gender = selectedGenre
-                showingCustomerForm.toggle()
+                dataModel.customer.gender = selectedGenre.rawValue
+                if dataModel.isUpdate {
+                    dataModel.updateData()
+                } else {
+                    dataModel.writeData()
+                }
+                //Show toast
+                
             }) {
                 Text("Salvar")
             }.disabled(!checkForm()))
             
-            .navigationBarTitle("Cadastro de Cliente", displayMode: .inline)
+            .navigationBarTitle(dataModel.isUpdate ? "Cadastro de Cliente" : "Editar Cliente", displayMode: .inline)
         }
     }
     
     func checkForm() -> Bool {
-        if customer.name != "" && customer.cpf != "" && customer.phone != "" && customer.bornDate != nil && customer.gender != nil {
+        if dataModel.customer.name != "" && dataModel.customer.cpf != "" && dataModel.customer.phone != "" && dataModel.customer.bornDate != nil && dataModel.customer.gender != nil {
             return true
         } else {
             return false
         }
+    }
+}
+
+//MARK: Card View
+
+struct CustomerCardView: View {
+    
+    @Binding var customer: Customer
+    
+    var body: some View {
+        Text("\(customer.name) - \(customer.age)")
     }
 }
 
