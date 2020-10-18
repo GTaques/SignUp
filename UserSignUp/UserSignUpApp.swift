@@ -11,8 +11,8 @@ import CoreData
 @main
 struct UserSignUpApp: App {
 
-    @StateObject var dataModel = CustomersViewModel()
-    let context = DataStore.shared.persistentContainer.viewContext
+    @StateObject var dataModel = CustomersViewModel(dataStore: CoreDataStack())
+    let context = CoreDataStack().persistentContainer.viewContext
 
     var body: some Scene {
         WindowGroup {
