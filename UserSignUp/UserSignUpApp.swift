@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct UserSignUpApp: App {
-//    let persistenceController = PersistenceController.shared
+
+    @StateObject var dataModel = CustomersViewModel()
+    let context = DataStore.shared.persistentContainer.viewContext
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-//            ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, context)
+                .environmentObject(dataModel)
         }
     }
 }

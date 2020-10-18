@@ -6,6 +6,9 @@
 //
 
 import XCTest
+import SnapshotTesting
+import SwiftUI
+@testable import UserSignUp
 
 class UserSignUpUITests: XCTestCase {
 

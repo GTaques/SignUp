@@ -6,38 +6,54 @@
 //
 
 import SwiftUI
+import CoreData
 
 //MARK: Lista de Usuários
 
 struct CustomersView: View {
     
-    @State var showingCustomerForm: Bool = false
-    var customers: [Customer] = [
-        Customer(name: "João", phone: "30003000", cpf: "903930219", bornDate: Date(), gender: "Masculino", createdAt: Date()),
-        Customer(name: "Maria", phone: "30003000", cpf: "903930219", bornDate: Date(), gender: "Feminino", createdAt: Date()),
-        Customer(name: "Nicolau", phone: "30003000", cpf: "903930219", bornDate: Date(), gender: "Masculino", createdAt: Date())
-    ]
+    @EnvironmentObject var dataModel: CustomersViewModel
+    @State var searchText: String = ""
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(customers, id:\.id) { customer in
-                    Text("\(customer.name)")
-                }.onDelete(perform: { indexSet in
-                    print("Delete")
-                })
-            }.navigationTitle("Clientes")
+            VStack {
+                SearchBar(text: $searchText)
+                    .padding(.top)
+                ZStack(alignment: .bottom) {
+                    List {
+                        ForEach(dataModel.customers.filter({ searchText.isEmpty ? true : ($0.value(forKey: "cpf") as! String).contains(searchText)}), id:\.self) { customer in
+                            Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age) anos")
+                                .onTapGesture {
+                                    dataModel.determineUpdate(obj: customer)
+                                }
+                        }.onDelete(perform: dataModel.deleteData(indexSet:))
+                    }
+                    if dataModel.showingToast {
+                        Text("\(dataModel.statusMessage)")
+                            .padding()
+                            .background(dataModel.toastColor)
+                            .clipShape(Capsule())
+                            .transition(.move(edge: .bottom))
+                            .animation(.default)
+                            .padding(.bottom, 30)
+                    } else {
+                        EmptyView()
+                    }
+                }
+            }
+            .navigationTitle("Clientes")
             .navigationBarItems(leading: Button(action: {
                 print("Edit")
             }){
                 Text("Editar")
             }, trailing: Button(action: {
-                showingCustomerForm.toggle()
+                dataModel.showingCustomerForm.toggle()
             }){
-                Image(systemName: "plus")
+                Image(systemName: "plus").frame(width: 30, height: 30)
             })
-            .sheet(isPresented: $showingCustomerForm, content: {
-                CustomerFormView(showingCustomerForm: $showingCustomerForm)
+            .sheet(isPresented: $dataModel.showingCustomerForm, content: {
+                CustomerFormView(dataModel: dataModel)
             })
         }
     }
@@ -46,23 +62,70 @@ struct CustomersView: View {
 //MARK: Formulário de Cadastro de Usuários
 struct CustomerFormView: View {
     
-    
-    @Binding var showingCustomerForm: Bool
+    @ObservedObject var dataModel: CustomersViewModel
+    @State private var selectedGenre: Genres = .feminine
     
     var body: some View {
         NavigationView {
-            Text("Form")
-                .navigationBarItems(leading: Button(action: {
-                    showingCustomerForm.toggle()
-                }) {
-                    Text("Cancelar")
-                }, trailing: Button(action: {
-                    print("save")
-                }) {
-                    Text("Salvar")
-                })
-                .navigationBarTitle("Cadastro de Cliente", displayMode: .inline)
+            Form {
+                Section {
+                    TextField("Nome", text: $dataModel.customer.name)
+                    TextField("Telefone", text: $dataModel.customer.phone)
+                    TextField("CPF", text: $dataModel.customer.cpf)
+                    DatePicker("Data de Nascimento", selection: $dataModel.customer.bornDate, displayedComponents: .date)
+                    Text("Gênero")
+                    Picker(selection: $selectedGenre, label: Text("Gênero")) {
+                        ForEach(Genres.allCases, id: \.self) { genero in
+                            Text(genero.rawValue).tag(genero)
+                        }
+                    }.frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .pickerStyle(WheelPickerStyle())
+                }
+            }
+            .onAppear(perform: {
+                if dataModel.isUpdate && dataModel.customer.gender != nil {
+                    selectedGenre = Genres(rawValue: dataModel.customer.gender)!
+                }
+            })
+            .navigationBarItems(leading: Button(action: {
+                dataModel.showingCustomerForm.toggle()
+            }) {
+                Text("Cancelar")
+            }, trailing: Button(action: {
+                dataModel.customer.gender = selectedGenre.rawValue
+                if dataModel.isUpdate {
+                    dataModel.updateData()
+                } else {
+                    dataModel.writeData()
+                }
+            }) {
+                Text("Salvar")
+            }.disabled(!checkForm()))
+            .navigationBarTitle(dataModel.isUpdate ? "Cadastro de Cliente" : "Editar Cliente", displayMode: .inline)
         }
+    }
+    
+    func checkForm() -> Bool {
+        if dataModel.customer.name != "" && dataModel.customer.cpf != "" && dataModel.customer.phone != "" && dataModel.customer.bornDate != nil && dataModel.customer.gender != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+//MARK: Card View
+
+struct CustomerCardView: View {
+    
+    @ObservedObject var dataModel: CustomersViewModel
+    var customer: NSManagedObject
+    
+    var body: some View {
+        Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age)")
+            .onTapGesture {
+                dataModel.determineUpdate(obj: customer)
+            }
     }
 }
 

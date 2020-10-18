@@ -9,18 +9,21 @@ import XCTest
 @testable import UserSignUp
 
 class UserSignUpTests: XCTestCase {
+    
+    var customer: Customer!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        
+        customer = Customer(name: "Joao", phone: "30000000", cpf: "000000000-90", bornDate: formatter.date(from: "1990/10/12"), gender: Genres.masculino.rawValue, createdAt: Date())
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        customer = nil
+        super.tearDown()
     }
 
     func testPerformanceExample() throws {
@@ -28,6 +31,16 @@ class UserSignUpTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+    
+    //MARK: Model Tests
+    func testCalculateAge() {
+        XCTAssertEqual(customer.age, 30)
+    }
+    
+    func testGenderIsString() {
+        let genderEnum = Genres(rawValue: customer.gender)
+        XCTAssertTrue(genderEnum?.rawValue == customer.gender)
     }
 
 }
