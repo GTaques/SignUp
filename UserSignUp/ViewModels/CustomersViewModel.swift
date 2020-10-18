@@ -15,8 +15,10 @@ class CustomersViewModel: ObservableObject {
     @Published var customer: Customer = Customer(name: "", phone: "", cpf: "", bornDate: Date(), gender: Genres.feminine.rawValue, createdAt: Date())
     @Published var selectedCustomer = NSManagedObject()
     
+    @Published var statusMessage: String = ""
     @Published var showingCustomerForm: Bool = false
-    @Published var savedData: Bool = false
+    @Published var showingToast: Bool = false
+    @Published var toastColor: Color = Color(#colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1))
     @Published var isUpdate: Bool = false
     let context = DataStore.shared.persistentContainer.viewContext
     
@@ -48,13 +50,15 @@ class CustomersViewModel: ObservableObject {
         
         do {
             try context.save()
-            savedData = true
+            statusMessage = "Criado com sucesso!"
             self.customers.append(entity)
             customer = Customer(name: "", phone: "", cpf: "", bornDate: Date(), gender: Genres.feminine.rawValue, createdAt: Date())
+            toggleToast()
             
         } catch {
-            savedData = false
+            statusMessage = "Erro ao salvar!"
             print(error.localizedDescription)
+            toggleToast()
         }
         
         showingCustomerForm.toggle()
@@ -87,18 +91,28 @@ class CustomersViewModel: ObservableObject {
                 if obj == selectedCustomer { return true }
                 else { return false }
             }
-            
-            obj?.setValue(customer.name, forKey: "name")
-            obj?.setValue(customer.phone, forKey: "phone")
-            obj?.setValue(customer.cpf, forKey: "cpf")
-            obj?.setValue(customer.bornDate, forKey: "bornDate")
-            obj?.setValue(customer.gender, forKey: "genre")
+            obj?.setValuesForKeys([
+                "id": customer.id,
+                "name": customer.name as String,
+                "phone": customer.phone as String,
+                "cpf": customer.cpf as String,
+                "bornDate": customer.bornDate as Date,
+                "genre": customer.gender as String,
+                "createdAt": customer.createdAt as Date
+            ])
+//            obj?.setValue(customer.name, forKey: "name")
+//            obj?.setValue(customer.phone, forKey: "phone")
+//            obj?.setValue(customer.cpf, forKey: "cpf")
+//            obj?.setValue(customer.bornDate, forKey: "bornDate")
+//            obj?.setValue(customer.gender, forKey: "genre")
             try context.save()
             
             //Success
             customers[index!] = obj!
             isUpdate.toggle()
             showingCustomerForm.toggle()
+            statusMessage = "Editado com sucesso!"
+            toggleToast()
             
             //Clean Object
             customer = Customer(name: "", phone: "", cpf: "", bornDate: Date(), gender: Genres.feminine.rawValue, createdAt: Date())
@@ -119,34 +133,17 @@ class CustomersViewModel: ObservableObject {
         return Customer(name: name as? String, phone: phone as? String, cpf: cpf as? String, bornDate: bordDate as? Date, gender: genre as? String, createdAt: createdAt as! Date)
     }
     
-    func getValues(objs: [NSManagedObject]) -> [Customer] {
-        var customers: [Customer] = []
-        
-        for obj in objs {
-            let name = obj.value(forKey: "name")
-            let phone = obj.value(forKey: "phone")
-            let cpf = obj.value(forKey: "cpf")
-            let bordDate = obj.value(forKey: "bornDate")
-            let genre = obj.value(forKey: "genre")
-            let createdAt = obj.value(forKey: "createdAt")
-            
-            customers.append(Customer(name: name as? String, phone: phone as? String, cpf: cpf as? String, bornDate: bordDate as? Date, gender: genre as? String, createdAt: createdAt as! Date))
-        }
-        
-        return customers
-    }
-    
     func determineUpdate(obj: NSManagedObject) {
         selectedCustomer = obj
-        let name = obj.value(forKey: "name")
-        let phone = obj.value(forKey: "phone")
-        let cpf = obj.value(forKey: "cpf")
-        let bordDate = obj.value(forKey: "bornDate")
-        let genre = obj.value(forKey: "genre")
-        let createdAt = obj.value(forKey: "createdAt")
-        customer = Customer(name: name as? String, phone: phone as? String, cpf: cpf as? String, bornDate: bordDate as? Date, gender: genre as? String, createdAt: createdAt as! Date)
+        customer = getValue(obj: obj)
         isUpdate = true
         showingCustomerForm = true
     }
     
+    func toggleToast() {
+        showingToast = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.showingToast = false
+        }
+    }
 }

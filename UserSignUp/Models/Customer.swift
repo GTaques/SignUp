@@ -22,12 +22,15 @@ struct Customer: Hashable {
     var bornDate: Date!
     var gender: String! 
     var createdAt = Date()
-    var age: String {
-        let form = DateComponentsFormatter()
-        form.maximumUnitCount = 2
-        form.unitsStyle = .abbreviated
-        form.allowedUnits = [.year]
-        return form.string(from: bornDate, to: Date())!
+    var age: Int {
+        get {
+            return Calendar.current.dateComponents([.year], from: bornDate, to: Date()).year ?? 0
+        }
+//        let form = DateComponentsFormatter()
+//        form.maximumUnitCount = 2
+//        form.unitsStyle = .abbreviated
+//        form.allowedUnits = [.year]
+//        return form.string(from: bornDate, to: Date())!
     }
     
     

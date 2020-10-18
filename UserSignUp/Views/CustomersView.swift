@@ -6,34 +6,41 @@
 //
 
 import SwiftUI
+import CoreData
 
 //MARK: Lista de Usuários
 
 struct CustomersView: View {
     
     @EnvironmentObject var dataModel: CustomersViewModel
-
+    @State var searchText: String = ""
+    
     var body: some View {
         NavigationView {
-            ZStack(alignment: .top) {
-                List {
-                    ForEach(Array(dataModel.customers.enumerated()), id:\.element) { index, customer in
-                        Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age)")
-                            .onTapGesture {
-                                dataModel.determineUpdate(obj: customer)
-                            }
-                    }.onDelete(perform: dataModel.deleteData(indexSet:))
+            VStack {
+                SearchBar(text: $searchText)
+                    .padding(.top)
+                ZStack(alignment: .bottom) {
+                    List {
+                        ForEach(dataModel.customers.filter({ searchText.isEmpty ? true : ($0.value(forKey: "cpf") as! String).contains(searchText)}), id:\.self) { customer in
+                            Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age) anos")
+                                .onTapGesture {
+                                    dataModel.determineUpdate(obj: customer)
+                                }
+                        }.onDelete(perform: dataModel.deleteData(indexSet:))
+                    }
+                    if dataModel.showingToast {
+                        Text("\(dataModel.statusMessage)")
+                            .padding()
+                            .background(dataModel.toastColor)
+                            .clipShape(Capsule())
+                            .transition(.move(edge: .bottom))
+                            .animation(.default)
+                            .padding(.bottom, 30)
+                    } else {
+                        EmptyView()
+                    }
                 }
-//                if dataModel.savedData {
-//                    Text("Criado com sucesso!")
-//                        .padding()
-//                        .background(Color(.lightGray))
-//                        .clipShape(Capsule())
-//                } else {
-//                    EmptyView()
-//                }
-                
-                    
             }
             .navigationTitle("Clientes")
             .navigationBarItems(leading: Button(action: {
@@ -91,12 +98,9 @@ struct CustomerFormView: View {
                 } else {
                     dataModel.writeData()
                 }
-                //Show toast
-                
             }) {
                 Text("Salvar")
             }.disabled(!checkForm()))
-            
             .navigationBarTitle(dataModel.isUpdate ? "Cadastro de Cliente" : "Editar Cliente", displayMode: .inline)
         }
     }
@@ -114,10 +118,14 @@ struct CustomerFormView: View {
 
 struct CustomerCardView: View {
     
-    @Binding var customer: Customer
+    @ObservedObject var dataModel: CustomersViewModel
+    var customer: NSManagedObject
     
     var body: some View {
-        Text("\(customer.name) - \(customer.age)")
+        Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age)")
+            .onTapGesture {
+                dataModel.determineUpdate(obj: customer)
+            }
     }
 }
 
