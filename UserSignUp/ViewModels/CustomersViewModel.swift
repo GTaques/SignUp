@@ -14,15 +14,17 @@ class CustomersViewModel: ObservableObject {
     @Published var customers: [NSManagedObject] = []
     @Published var customer: Customer = Customer(name: "", phone: "", cpf: "", bornDate: Date(), gender: Genres.feminine.rawValue, createdAt: Date())
     @Published var selectedCustomer = NSManagedObject()
-    
     @Published var statusMessage: String = ""
     @Published var showingCustomerForm: Bool = false
     @Published var showingToast: Bool = false
     @Published var toastColor: Color = Color(#colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1))
     @Published var isUpdate: Bool = false
-    let context = DataStore.shared.persistentContainer.viewContext
+    let context: NSManagedObjectContext
+    let dataStore: CoreDataStack
     
-    init() {
+   public init(managedObjectContext: NSManagedObjectContext = CoreDataStack().persistentContainer.viewContext, dataStore: CoreDataStack) {
+        self.context = managedObjectContext
+        self.dataStore = dataStore
         readData()
     }
     
@@ -39,7 +41,7 @@ class CustomersViewModel: ObservableObject {
     func writeData() {
         let entity = NSEntityDescription.insertNewObject(forEntityName: "CustomerEntity", into: context)
         entity.setValuesForKeys([
-            "id": customer.id,
+            "id": customer.id as UUID,
             "name": customer.name as String,
             "phone": customer.phone as String,
             "cpf": customer.cpf as String,
@@ -92,7 +94,6 @@ class CustomersViewModel: ObservableObject {
                 else { return false }
             }
             obj?.setValuesForKeys([
-                "id": customer.id,
                 "name": customer.name as String,
                 "phone": customer.phone as String,
                 "cpf": customer.cpf as String,
@@ -100,11 +101,6 @@ class CustomersViewModel: ObservableObject {
                 "genre": customer.gender as String,
                 "createdAt": customer.createdAt as Date
             ])
-//            obj?.setValue(customer.name, forKey: "name")
-//            obj?.setValue(customer.phone, forKey: "phone")
-//            obj?.setValue(customer.cpf, forKey: "cpf")
-//            obj?.setValue(customer.bornDate, forKey: "bornDate")
-//            obj?.setValue(customer.gender, forKey: "genre")
             try context.save()
             
             //Success

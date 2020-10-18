@@ -11,8 +11,9 @@
 		E88E9DFB253B25A6007E2D59 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DFA253B25A6007E2D59 /* SettingsView.swift */; };
 		E88E9E00253B3151007E2D59 /* CustomersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */; };
 		E88E9E19253B4410007E2D59 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E17253B4410007E2D59 /* DataModel.xcdatamodeld */; };
-		E88E9E1E253B445D007E2D59 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E1D253B445D007E2D59 /* DataStore.swift */; };
+		E88E9E1E253B445D007E2D59 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E1D253B445D007E2D59 /* CoreDataStack.swift */; };
 		E88E9E38253B7C95007E2D59 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E37253B7C95007E2D59 /* SearchBar.swift */; };
+		E88E9E8C253C8E8C007E2D59 /* TestCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88E9E55253C802A007E2D59 /* TestCoreDataStack.swift */; };
 		E895DB42253A3C1A003A11FA /* UserSignUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */; };
 		E895DB44253A3C1A003A11FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E895DB43253A3C1A003A11FA /* ContentView.swift */; };
 		E895DB46253A3C1C003A11FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E895DB45253A3C1C003A11FA /* Assets.xcassets */; };
@@ -48,8 +49,9 @@
 		E88E9DFA253B25A6007E2D59 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E88E9DFF253B3151007E2D59 /* CustomersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomersViewModel.swift; sourceTree = "<group>"; };
 		E88E9E18253B4410007E2D59 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
-		E88E9E1D253B445D007E2D59 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		E88E9E1D253B445D007E2D59 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E88E9E37253B7C95007E2D59 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		E88E9E55253C802A007E2D59 /* TestCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoreDataStack.swift; sourceTree = "<group>"; };
 		E895DB3E253A3C1A003A11FA /* UserSignUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserSignUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E895DB41253A3C1A003A11FA /* UserSignUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignUpApp.swift; sourceTree = "<group>"; };
 		E895DB43253A3C1A003A11FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				E88E9E17253B4410007E2D59 /* DataModel.xcdatamodeld */,
-				E88E9E1D253B445D007E2D59 /* DataStore.swift */,
+				E88E9E1D253B445D007E2D59 /* CoreDataStack.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -151,8 +153,9 @@
 		E895DB57253A3C1C003A11FA /* UserSignUpTests */ = {
 			isa = PBXGroup;
 			children = (
-				E895DB58253A3C1C003A11FA /* UserSignUpTests.swift */,
 				E895DB5A253A3C1C003A11FA /* Info.plist */,
+				E895DB58253A3C1C003A11FA /* UserSignUpTests.swift */,
+				E88E9E55253C802A007E2D59 /* TestCoreDataStack.swift */,
 			);
 			path = UserSignUpTests;
 			sourceTree = "<group>";
@@ -334,7 +337,7 @@
 			files = (
 				E88E9E38253B7C95007E2D59 /* SearchBar.swift in Sources */,
 				E88E9E19253B4410007E2D59 /* DataModel.xcdatamodeld in Sources */,
-				E88E9E1E253B445D007E2D59 /* DataStore.swift in Sources */,
+				E88E9E1E253B445D007E2D59 /* CoreDataStack.swift in Sources */,
 				E895DB4E253A3C1C003A11FA /* UserSignUp.xcdatamodeld in Sources */,
 				E895DB78253A3D8A003A11FA /* Customer.swift in Sources */,
 				E895DB4B253A3C1C003A11FA /* Persistence.swift in Sources */,
@@ -353,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E895DB59253A3C1C003A11FA /* UserSignUpTests.swift in Sources */,
+				E88E9E8C253C8E8C007E2D59 /* TestCoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
