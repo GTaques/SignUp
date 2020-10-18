@@ -8,31 +8,54 @@
 import SwiftUI
 
 struct HomeView: View {
+    
+    @Binding var selectedTab: Int
+    
     var body: some View {
-        //            LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1)), Color(#colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1))]), startPoint: .topTrailing, endPoint: .bottomLeading).edgesIgnoringSafeArea(.all)
         NavigationView {
-            VStack {
-                Group {
-                    Button(action: {
-                        print("Cadastro")
-                    }) {
-                        Text("Cadastrar Cliente")
+            GeometryReader { geometry in
+                VStack {
+                    Spacer()
+                    HStack(alignment: .center) {
+                        Group {
+                            Button(action: {
+                                self.selectedTab = 1
+                            }) {
+                                VStack {
+                                    Image("clients").resizable().aspectRatio(contentMode: .fit)
+                                    Text("Cadastrar Cliente").foregroundColor(.black).font(.headline)
+                                }
+                                .padding()
+                                
+                            }
+                            .frame(width: geometry.size.width / 2 - 5, height: geometry.size.height / 3)
+                            .border(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), width: 2)
+                            .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                            Spacer()
+                            Button(action: {
+                                self.selectedTab = 2
+                            }) {
+                                VStack {
+                                    Image("sair").resizable().aspectRatio(contentMode: .fit)
+                                    Text("Sair do App").foregroundColor(.black).font(.headline)
+                                }.padding()
+                                
+                            }
+                            .frame(width: geometry.size.width / 2 - 5, height: geometry.size.height / 3)
+                            .background(Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                            .border(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)), width: 2)
+                            
+                        }.cornerRadius(8)
+                        
                     }
-                    Button(action: {
-                        print("Saiu")
-                    }) {
-                        Text("Sair do App")
-                    }
+                    Spacer()
                 }
-                .buttonStyle(CustomButtonStyle())
+                
+                
             }
+            .padding()
             .navigationTitle("Seja bem-vinda!")
         }
     }
 }
 
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
-}

@@ -43,11 +43,7 @@ struct CustomersView: View {
                 }
             }
             .navigationTitle("Clientes")
-            .navigationBarItems(leading: Button(action: {
-                print("Edit")
-            }){
-                Text("Editar")
-            }, trailing: Button(action: {
+            .navigationBarItems(trailing: Button(action: {
                 dataModel.showingCustomerForm.toggle()
             }){
                 Image(systemName: "plus").frame(width: 30, height: 30)

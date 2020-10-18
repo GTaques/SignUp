@@ -9,11 +9,15 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Button(action: {
-            print("Saindo")
-        }) {
-            Text("Sair do App")
+        NavigationView {
+            Button(action: {
+                print("Saindo")
+            }) {
+                Text("Sair do App")
+            }.buttonStyle(CustomButtonStyle())
+            .navigationTitle("Ajustes")
         }
+        
     }
 }
 
