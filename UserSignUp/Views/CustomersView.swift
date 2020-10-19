@@ -23,7 +23,11 @@ struct CustomersView: View {
                 ZStack(alignment: .bottom) {
                     List {
                         ForEach(dataModel.customers.filter({ searchText.isEmpty ? true : ($0.value(forKey: "cpf") as! String).contains(searchText)}), id:\.self) { customer in
-                            Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age) anos")
+                            VStack(alignment: .leading) {
+                                Text("\(dataModel.getValue(obj: customer).name) - \(dataModel.getValue(obj: customer).age) anos")
+                                Text("CPF: \(dataModel.getValue(obj: customer).cpf)").font(.footnote)
+                            }
+                            
                                 .onTapGesture {
                                     dataModel.determineUpdate(obj: customer)
                                 }
@@ -66,8 +70,8 @@ struct CustomerFormView: View {
             Form {
                 Section {
                     TextField("Nome", text: $dataModel.customer.name)
-                    TextField("Telefone", text: $dataModel.customer.phone)
-                    TextField("CPF", text: $dataModel.customer.cpf)
+                    TextField("Telefone", text: $dataModel.customer.phone).keyboardType(.numberPad)
+                    TextField("CPF", text: $dataModel.customer.cpf).keyboardType(.numberPad)
                     DatePicker("Data de Nascimento", selection: $dataModel.customer.bornDate, displayedComponents: .date)
                     Text("Gênero")
                     Picker(selection: $selectedGenre, label: Text("Gênero")) {
